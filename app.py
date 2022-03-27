@@ -5,6 +5,8 @@ import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import ThemeSwitchAIO
 from dash_bootstrap_templates import load_figure_template
 import datetime
+import os
+from config.definitions import ROOT_DIR
 
 import tab_main
 import settings_tab
@@ -49,7 +51,7 @@ import base64
 import io
 import json
 import plotly.graph_objects as go
-
+saved_filters_path = os.path.join(ROOT_DIR, "saved_filters.json")
 # import fig_coverage
 
 # select the Bootstrap stylesheet2 and figure template2 for the theme toggle here:
@@ -171,10 +173,14 @@ app.layout = dbc.Container(
     ],
 )
 # def maintanance(theme_selector, btn_update_n_click):
+
 def maintanance(theme_selector, checklist_be, checklist_model_eo):
     # читаем файл с дефолтными фильтрами
     # Opening JSON file
-    with open('saved_filters.json', 'r') as openfile:
+    saved_filters_path = os.path.join(ROOT_DIR, "saved_filters.json")
+    print(saved_filters_path)
+
+    with open(saved_filters_path, 'r') as openfile:
         # Reading from json file
         saved_filters_dict = json.load(openfile)
 
@@ -207,7 +213,7 @@ def maintanance(theme_selector, checklist_be, checklist_model_eo):
         be_list_for_dataframes_filtering = checklist_be
         saved_filters_dict['filter_be'] = checklist_be
         # записываем в json
-        with open("saved_filters.json", "w") as jsonFile:
+        with open(saved_filters_path, "w") as jsonFile:
             json.dump(saved_filters_dict, jsonFile)
         checklist_be_value = checklist_be
     # ессли фильтр трогали, но очистили то фильтр надо очистить
@@ -215,7 +221,7 @@ def maintanance(theme_selector, checklist_be, checklist_model_eo):
         be_list_for_dataframes_filtering = be_full_list
         saved_filters_dict['filter_be'] = checklist_be
         # записываем в json
-        with open("saved_filters.json", "w") as jsonFile:
+        with open(saved_filters_path, "w") as jsonFile:
             json.dump(saved_filters_dict, jsonFile)
         checklist_be_value = checklist_be
     # checklist_be_value = []
@@ -245,7 +251,7 @@ def maintanance(theme_selector, checklist_be, checklist_model_eo):
         model_eo_filter_list_for_dataframes_filtering = checklist_model_eo
         saved_filters_dict['filter_model_eo'] = checklist_model_eo
         # записываем в json
-        with open("saved_filters.json", "w") as jsonFile:
+        with open(saved_filters_path, "w") as jsonFile:
             json.dump(saved_filters_dict, jsonFile)
         checklist_model_eo_value = checklist_model_eo
 
@@ -255,7 +261,7 @@ def maintanance(theme_selector, checklist_be, checklist_model_eo):
         model_eo_filter_list_for_dataframes_filtering = model_eo_filter_full_list
         saved_filters_dict['filter_model_eo'] = checklist_model_eo
         # записываем в json
-        with open("saved_filters.json", "w") as jsonFile:
+        with open(saved_filters_path, "w") as jsonFile:
             json.dump(saved_filters_dict, jsonFile)
         checklist_model_eo_value = checklist_model_eo
     ##########################################################################
@@ -390,7 +396,7 @@ def funct(n_clicks_ktg_table):
 def funct_calculation_start_status(calculation_start_status):
     # читаем файл с дефолтными фильтрами
     # Opening JSON file
-    with open('saved_filters.json', 'r') as openfile:
+    with open(saved_filters_path, 'r') as openfile:
         # Reading from json file
         saved_filters_dict = json.load(openfile)
     output_data_4 = ""
@@ -401,7 +407,7 @@ def funct_calculation_start_status(calculation_start_status):
         calculation_start_status_value = calculation_start_status
         saved_filters_dict['calculation_start_status_value'] = calculation_start_status_value
         # записываем в json
-        with open("saved_filters.json", "w") as jsonFile:
+        with open(saved_filters_path, "w") as jsonFile:
             json.dump(saved_filters_dict, jsonFile)
 
     return output_data_4, calculation_start_status_value
@@ -418,7 +424,7 @@ def funct_maintanance_job_list_general_calc(n_clicks_maintanance_jobs_df_calc):
         functions.maintanance_category_prep()
         functions.select_eo_for_calculation()
         functions.eo_job_catologue()
-        with open('saved_filters.json', 'r') as openfile:
+        with open(saved_filters_path, 'r') as openfile:
             # Reading from json file
             saved_filters_dict = json.load(openfile)
         calculation_start_mode = saved_filters_dict["calculation_start_status_value"]
