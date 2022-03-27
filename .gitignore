@@ -1,0 +1,15 @@
+# created by virtualenv automatically
+*
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+venv
+*.pyc
+.DS_Store
+.env
+poetry.lock
+pyproject.toml
